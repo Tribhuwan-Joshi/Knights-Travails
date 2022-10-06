@@ -23,24 +23,25 @@ function knightMoves(start, end) {
     [1, 2],
   ];
   let visited = new Array(8).fill().map(() => Array(8).fill(0));
-  let queue = [new coords(start[0], start[1], 0)];
+  let queue = [new coords(start[0], start[1])];
   visited[start[0]][start[1]] = 1;
   while (queue.length) {
     let node = queue[0];
 
     if (node.x == end[0] && node.y == end[1]) {
-      return node.dist;
+      return node;
     }
 
     for (let change of changes) {
       let child = new coords(
         change[0] + node.x,
         change[1] + node.y,
-        node.dist + 1
+        node.dist + 1,
+        node
       );
 
       if (child.x == end[0] && child.y == end[1]) {
-        return child.dist;
+        return child;
       }
 
       if (isValid(child) && !visited[child.x][child.y]) {
@@ -53,4 +54,17 @@ function knightMoves(start, end) {
   }
 }
 
-console.log(knightMoves([0,0], [7,7]));
+let ans= []
+function printPath(lastNode) {
+  if (lastNode == null) return ;
+  printPath(lastNode.prev);
+  let res = [lastNode.x , lastNode.y];
+  ans.push(res);
+
+}
+let startPosition = [0, 0];
+let endPosition = [2, 4];
+let lastNode = knightMoves(startPosition,endPosition);
+console.log("Minimum moves", lastNode.dist);
+printPath(lastNode);
+console.log("Full Path",ans);
