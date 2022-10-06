@@ -12,6 +12,7 @@ class coords {
 }
 
 function knightMoves(start, end) {
+  if(! isValid(start) || ! isValid(end)) return "Provide valid Inputs"
   let changes = [
     [-1, -2],
     [-2, -1],
@@ -23,12 +24,12 @@ function knightMoves(start, end) {
     [1, 2],
   ];
   let visited = new Array(8).fill().map(() => Array(8).fill(0));
-  let queue = [new coords(start[0], start[1])];
-  visited[start[0]][start[1]] = 1;
+  let queue = [new coords(start.x, start.y)];
+  visited[start.x][start.y] = 1;
   while (queue.length) {
     let node = queue[0];
 
-    if (node.x == end[0] && node.y == end[1]) {
+    if (node.x == end.x && node.y == end.y) {
       return node;
     }
 
@@ -62,9 +63,13 @@ function printPath(lastNode) {
   ans.push(res);
 
 }
-let startPosition = [0, 0];
-let endPosition = [2, 4];
-let lastNode = knightMoves(startPosition,endPosition);
+let startPositionX = 0;
+let startPositionY = 0;
+let endPositionX = 2;
+let endPositionY = 2;
+let startNode = new coords(startPositionX, startPositionY);
+let endNode = new coords(endPositionX, endPositionY);
+let lastNode = knightMoves(startNode,endNode);
 console.log("Minimum moves", lastNode.dist);
 printPath(lastNode);
 console.log("Full Path",ans);
